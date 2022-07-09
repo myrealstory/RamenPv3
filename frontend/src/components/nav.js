@@ -3,42 +3,54 @@ import { Link } from 'react-router-dom';
 
 function Nav() {
     return (
-        <nav class="navbar navbar-expand-lg bg-light">
-            <div class="container-fluid">
-                <Link to="/" class="navbar-brand">
-                    Navbar
-                </Link>
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid d-flex justify-content-bewteen">
+                <div>
+                    <Link to="/" class="navbar-brand">
+                        <img src="img/Logo.png" alt="" class="logo"/>
+                    </Link>
+                </div>
+               
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <Link to="/"
                                 class="nav-link active">
-                                Home
+                                HOME
                             </Link>
                         </li>
                         <li class="nav-item">
                             <Link to="/" class="nav-link" href="#">
-                                Features
+                                FOOD MENU
                             </Link>
                         </li>
                         <li class="nav-item">
                             <Link to="/" class="nav-link" href="#">
-                                Pricing
+                                ORDERS
                             </Link>
                         </li>
                         <li class="nav-item">
-                            <Link to="/" class="nav-link disabled">Disabled</Link>
+                            <Link to="/" class="nav-link ">ABOUT US</Link>
+                        </li>
+                        <li class="nav-item">
+                            <Link to="/" class="nav-link" href="#">
+                                LOCATION
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="d-flex ">
+                        <li></li>
+                        <li>
+                            <Link to="/" class="">
+                                Login / 
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/" class="pl-2">
+                                 Register
+                            </Link>
                         </li>
                     </ul>
                 </div>

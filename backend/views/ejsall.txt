@@ -1,0 +1,2 @@
+<%- include('parts/html-head') %> 
+<%- include('parts/script')%><%- include('parts/html-foot') %>

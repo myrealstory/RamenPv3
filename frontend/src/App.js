@@ -1,7 +1,9 @@
 import logo from "./logo.svg";
 import "./App.css";
 import Nav from "./components/nav";
-import { BrowserRouter as Router } from "react-router-dom";
+import Home from './components/Home';
+import FoodMenu from "./components/FoodMenu";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
     return (
@@ -9,7 +11,13 @@ function App() {
             <div className="App">
                 <header className="App-header">
                     <Nav />
-                    <p>Hello World!</p>
+                    
+                    <Routes>
+                        <Route path="/" element={<Home/>}>
+                        <Route path="/FoodMenu" element={<FoodMenu/>}></Route>
+
+                        </Route>
+                    </Routes>
                 </header>
             </div>
         </Router>
