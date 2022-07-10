@@ -1,7 +1,11 @@
 .container {
     height: 100vh;
 }
-.row{
+.Login-row{
     height: 90vh;
     width: 80% !important;
+}
+
+.borderRed {
+    border: 2px solid rgba(red, green, blue, alpha);
 }

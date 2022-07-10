@@ -1,12 +1,12 @@
-<%- include('parts/html-head') %>
-<%- include('parts/navbar2')%>
+<%- include('../parts/html-head') %>
+<%- include('../parts/navbar')%>
 
 <div class="container">
     <div class="row">
         <div class="col">
             <form class="d-flex" role="search">
-                <input type="date" class="form-control me-2" name="beginDate" value="<%= query.beginDate ? query.beginDate : '1980-01-01' %>">
-                <input type="date" class="form-control me-2" placeholder="生日結束" name="endDate" value="<%= query.endDate ? query.endDate : '2000-01-01' %>">
+                <input type="date" class="form-control me-2" name="beginDate" value="<%= query.beginDate ? query.beginDate : '' %>">
+                <input type="date" class="form-control me-2" placeholder="生日結束" name="endDate" value="<%= query.endDate ? query.endDate : '' %>">
                 <input class="form-control me-2" 
                         type="search" 
                         placeholder="Search" 
@@ -65,25 +65,25 @@
             <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col">salesOrder</th>
-                    <th scope="col">username</th>
-                    <th scope="col">Mobile</th>
-                    <th scope="col">Product_ID</th>
-                    <th scope="col">Quatity</th>
-                    <th scope="col">TotalPrice</th>
-                    <th scope="col">Sales_Date</th>
+                    <th scope="col" class="borderRed">salesOrder</th>
+                    <th scope="col"class="borderRed">username</th>
+                    <th scope="col"class="borderRed">Mobile</th>
+                    <th scope="col" class="borderRed">Product_ID</th>
+                    <th scope="col" class="borderRed">Quatity</th>
+                    <th scope="col" class="borderRed">TotalPrice</th>
+                    <th scope="col" class="borderRed">Sales_Date</th>
                   </tr>
                 </thead>
                 <tbody>
                     <% for(let i of rows){ %>
                   <tr>
-                    <td><%= i.salesOrder %></td>
-                    <td><%= i.username %></td>
-                    <td><%= i.mobile %></td>
-                    <td><%= i.product_id %></td>
-                    <td><%= i.quality %></td>
-                    <td><%= i.TotalPrice %></td>
-                    <td><%= toDateString(i.cart_created) %></td>
+                    <td class="borderRed"><%= i.salesOrder %></td>
+                    <td class="borderRed"><%= i.username %></td>
+                    <td class="borderRed"><%= i.mobile %></td>
+                    <td class="borderRed"><%= i.product_id %></td>
+                    <td class="borderRed"><%= i.quality %></td>
+                    <td class="borderRed"><%= i.TotalPrice %></td>
+                    <td class="borderRed"><%= toDateString(i.cart_created) %></td>
                   </tr>
                  <% } %>
                 </tbody>
@@ -91,10 +91,10 @@
         </div>
     </div>
 </div>
-<%- include('parts/script')%>
+<%- include('../parts/script')%>
 
 <script>
     const rows = <%- JSON.stringify(rows) %>;
 </script>
 
-<%- include('parts/html-foot') %>
+<%- include('../parts/html-foot') %>

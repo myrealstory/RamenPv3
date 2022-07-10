@@ -24,6 +24,18 @@ const sessionStore = new MysqlStore({},db);//這裡三個步驟逝固定的。�
 app.set("view engine", "ejs");
 
 
+app.use(session({
+  saveUninitialized: false,
+  resave: false,
+  secret:'dkfdl12fewv923fdmks202r12', // 加密cookie用的
+  store: sessionStore, //因建立了資料庫。所以cookie會把加密用代號存到sql裡面，設立叫store
+  cookie:{
+      maxAge: 1200000,//毫秒 這樣兩分鐘
+   }, //這裡可以設定cookie存活的時間。
+
+}));
+
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use((req, res, next) => { 
@@ -73,7 +85,7 @@ app.route("/")
       req.session.admin = {
         sid: r1[0].sid,
         username: r1[0].username,
-      }
+      };
     }
     res.json(output);
   });

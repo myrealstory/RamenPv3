@@ -1,6 +1,6 @@
 const express = require('express');
 
-const db = require(__dirname + '/modules/mysql_connect');
+const db = require(__dirname + '/../modules/mysql_connect');
 const moment = require('moment-timezone');
 const { toDateString,
     toDatetimeString, } = require(__dirname + '/../modules/date-tools');
@@ -38,7 +38,7 @@ const getListHandler = async (req, res) => {
     if (beginDate) { 
         const mo = moment(beginDate);
         if (mo.isValid()) { 
-            where += `AND birthday >= '${mo.format('YYYY-MM-DD')}' `;
+            where += `AND cart_created >= '${mo.format('YYYY-MM-DD')}' `;
             output.query.beginDate = mo.format('YYYY-MM-DD');
         }
     }
@@ -46,7 +46,7 @@ const getListHandler = async (req, res) => {
     if (endDate) { 
         const mo = moment(endDate);
         if (mo.isValid()) { 
-            where += `AND birthday >= '${mo.format('YYYY-MM-DD')}' `;
+            where += `AND cart_created >= '${mo.format('YYYY-MM-DD')}' `;
             output.query.endDate = mo.format('YYYY-MM-DD');
         }
     }
@@ -58,7 +58,8 @@ const getListHandler = async (req, res) => {
     }
 
     // const sql01 = `SELECT Count(1) totalRows FROM member ${where}`;
-    const sql01 = `SELECT Count(salesOrder,member.mobile,cart.username,product_id,quality,TotalPrice,cart_created) totalRows FROM cart JOIN member ON member.username = cart.username ${where}`;
+    // const sql01 = `SELECT Count(salesOrder,member.mobile,cart.username,product_id,quality,TotalPrice,cart_created) totalRows FROM cart JOIN member ON member.username = cart.username ${where}`;
+    const sql01 = `SELECT Count(1) totalRows FROM cart JOIN member ON member.username = cart.username ${where}`;
     const [[totalRows]] = await db.query(sql01);
     let totalPages = 0;
     if (totalRows) { 
@@ -73,7 +74,7 @@ const getListHandler = async (req, res) => {
         const sql02 = `SELECT salesOrder,member.mobile,cart.username,product_id,quality,TotalPrice,cart_created FROM cart JOIN member ON member.username = cart.username ORDER BY salesOrder ASC LIMIT ${(page - 1) * output.perPage},${output.perPage}`;
         // SELECT `salesOrder`,`member`.`mobile`,`cart`.`username`,`product_id`,`quality`,`TotalPrice`,`cart_created` FROM `cart` JOIN `member` ON `member`.`username` = `cart`.`username` ORDER BY `salesOrder` ASC;
         const [r2] = await db.query(sql02);
-        r2.forEach(element => element.birthday = toDateString(element.birthday));
+        r2.forEach(element => element.cart_created = toDateString(element.cart_created));
         output.rows = r2;
     }
     output.code = 200;
@@ -95,11 +96,12 @@ router.get('/main', async (req, res) => {
             return res.redirect(`?page=${output.totalPages}`);
             break;
     }
-    if (!req.session.admin) {
-        res.render('namelist/no_main', output);
-    } else { 
-        res.render('namelist/main',output);
-    }
+    res.render('namelist/main', output);
+    // if (!req.session.admin) {
+    //     res.render('namelist/no_main', output);
+    // } else { 
+    //     res.render('namelist/main',output);
+    // }
 });
 
 module.exports = router;
