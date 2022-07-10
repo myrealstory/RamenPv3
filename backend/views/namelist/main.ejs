@@ -1,0 +1,100 @@
+<%- include('parts/html-head') %>
+<%- include('parts/navbar2')%>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form class="d-flex" role="search">
+                <input type="date" class="form-control me-2" name="beginDate" value="<%= query.beginDate ? query.beginDate : '1980-01-01' %>">
+                <input type="date" class="form-control me-2" placeholder="生日結束" name="endDate" value="<%= query.endDate ? query.endDate : '2000-01-01' %>">
+                <input class="form-control me-2" 
+                        type="search" 
+                        placeholder="Search" 
+                        name = "search"
+                        value="<%= query.search ? query.search : '' %>">
+                        
+      
+                <button class="btn btn-outline-success" 
+                        type="submit">Search</button>
+              </form>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link" href="#">Previous</a>
+                    </li>
+
+                    <% for(let i=page-5; i<=page+5; i++) if(i>0 
+                    ){ 
+                        const queryobj =  {page: i };
+                        if(query.search){
+                            queryobj.search = query.search;
+                        }
+                         
+                        if(query.beginDate){
+                            queryobj.beginDate = query.beginDate;
+                        }
+                        if(query.endDate){
+                            queryobj.endDate = query.endDate;
+                        }
+
+                        const myLink = new URLSearchParams(queryobj).toString();
+                        
+                        %>
+                    <li class="page-item <%= page===i ? 'active' : '' %>">
+                        <a class="page-link" href="?<%= myLink %>"><%= i %></a>
+                    </li>
+                    <% } %>
+                    <!-- <li class="page-item">
+                        <a class="page-link" href="?page=1">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=2">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=3">3</a>
+                    </li> -->
+                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+              </nav>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">salesOrder</th>
+                    <th scope="col">username</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">Product_ID</th>
+                    <th scope="col">Quatity</th>
+                    <th scope="col">TotalPrice</th>
+                    <th scope="col">Sales_Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% for(let i of rows){ %>
+                  <tr>
+                    <td><%= i.salesOrder %></td>
+                    <td><%= i.username %></td>
+                    <td><%= i.mobile %></td>
+                    <td><%= i.product_id %></td>
+                    <td><%= i.quality %></td>
+                    <td><%= i.TotalPrice %></td>
+                    <td><%= toDateString(i.cart_created) %></td>
+                  </tr>
+                 <% } %>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+<%- include('parts/script')%>
+
+<script>
+    const rows = <%- JSON.stringify(rows) %>;
+</script>
+
+<%- include('parts/html-foot') %>

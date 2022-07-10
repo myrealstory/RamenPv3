@@ -6,6 +6,12 @@ const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const mysql = require('mysql2');
 const session = require('express-session');
+const moment = require('moment-timezone');
+
+const {
+  toDateString,
+  toDatetimeString,
+} = require(__dirname + '/../modules/date-tools');
 // const { Logger } = require('concurrently');
 // const path = require("path");
 
@@ -21,7 +27,10 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use((req, res, next) => { 
-    res.locals.admin = "hello";
+    // res.locals.admin = "hello";
+    // Template Helper Function
+  res.locals.toDateString = toDateString;
+  res.locals.toDatetimeString = toDatetimeString;
     res.locals.session = req.session;
 
     next();
@@ -61,17 +70,23 @@ app.route("/")
       output.code = 402;
       output.error = "密碼錯誤";
     } else {
-    //   res.session.admin = {
-    //     sid: r1[0].sid,
-    //     account: r1[0].username,
-    //   }
+      req.session.admin = {
+        sid: r1[0].sid,
+        username: r1[0].username,
+      }
     }
     res.json(output);
   });
 
-app.get("/main",(req, res) => {
-    res.render("main");
-});
+app.route('/update')
+  .get(async (req, res) => { 
+    res.render('update');
+  })
+  .post(async(req, res) => { 
+
+  })
+
+app.use('/Namelist',require(__dirname + '/router/NameList'))
 
 app.get("/FoodMenu",(req, res) => {
     res.send(`
@@ -89,3 +104,4 @@ app.listen(process.env.PORT, () => {
     console.log(`server started: ${process.env.PORT}`);
     console.log({ NODE_ENV: process.env.NODE_ENV});
 });
+
