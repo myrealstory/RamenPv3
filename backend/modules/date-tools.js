@@ -3,12 +3,12 @@ const moment = require('moment-timezone');
 const dateFormat = 'YYYY-MM-DD';
 const datetimeFormat = 'YYYY-MM-DD HH:mm:ss';
 
-const toDateString = (t => { 
+const toDateString = (t => {
     const m = moment(t);
     return m.format(dateFormat);
-})
+});
 
-const toDatetimeString = (t) => { moment(t).format(datetimeFormat); }
+const toDatetimeString = (t) => moment(t).format(datetimeFormat); 
 
 module.exports = {
     toDateString,

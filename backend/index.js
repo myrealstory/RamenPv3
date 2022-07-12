@@ -11,7 +11,7 @@ const moment = require('moment-timezone');
 const {
   toDateString,
   toDatetimeString,
-} = require(__dirname + '/../modules/date-tools');
+} = require(__dirname + '/modules/date-tools');
 // const { Logger } = require('concurrently');
 // const path = require("path");
 
