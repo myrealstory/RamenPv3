@@ -88,6 +88,11 @@ app.route("/")
       };
     }
     res.json(output);
+    });
+  
+  app.get('/logout', (req, res) => {
+    delete req.session.admin;
+    res.redirect("/");
   });
 
 app.route('/update')
@@ -98,12 +103,12 @@ app.route('/update')
 
   })
 
-app.use('/Namelist',require(__dirname + '/router/NameList'))
+app.use('/Namelist', require(__dirname + '/router/NameList'))
+app.use('/Menulist', require(__dirname + '/router/MenuList'))
 
-app.get("/FoodMenu",(req, res) => {
-    res.send(`
-    <h2>Here gonna build Menu part</h2>`);
-});
+// app.get("/Menulist",(req, res) => {
+//     res.render('menulist');
+// });
 
 
 

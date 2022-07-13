@@ -7,5 +7,69 @@
 }
 
 .borderRed {
-    border: 2px solid rgba(red, green, blue, alpha);
+    border: 1px solid rgb(170, 2, 2,0.3) ;
+}
+
+.col-big {
+    width: 8rem!important;
+}
+
+.col-red {
+    background-color: #7A0000 !important;
+    color: white;
+}
+
+.noline {
+    text-decoration: none;
+}
+
+.border-left {
+    border-left: 1px dotted grey;
+    padding-left: 5rem;
+}
+
+#updateMenu, #AddMenu {
+    height: 100vh;
+    width: 100%;
+}
+
+.w100 {
+    width: 100%;
+}
+.w80 {
+    width: 80%;
+}
+
+.htext {
+    height: 10rem;
+}
+.itext {
+    height: 2.5rem;
+}
+
+.text-gradient {
+    font-size: 3rem;
+    font-weight: bold;
+    color: rgba(122, 0, 0, 0.5);
+}
+
+
+.new_menu {
+    width: 50%;
+    margin-right: 3rem;
+}
+
+.uploadcol {
+    padding: 1rem;
+}
+
+.uploadcol>.upbox {
+    width: 250px;
+    height: 250px;
+    border: 1px dotted grey;
+    margin-bottom: 1rem;
+}
+
+.w100>.m0a {
+    margin: 0 auto;
 }

@@ -3,20 +3,8 @@
 
 <div class="container">
     <div class="row">
-        <div class="col">
-            <form class="d-flex" role="search">
-                <input type="date" class="form-control me-2" name="beginDate" value="<%= query.beginDate ? query.beginDate : '' %>">
-                <input type="date" class="form-control me-2" placeholder="生日結束" name="endDate" value="<%= query.endDate ? query.endDate : '' %>">
-                <input class="form-control me-2" 
-                        type="search" 
-                        placeholder="Search" 
-                        name = "search"
-                        value="<%= query.search ? query.search : '' %>">
-                        
-      
-                <button class="btn btn-outline-success" 
-                        type="submit">Search</button>
-              </form>
+        <div class="col d-flex justify-content-between">
+
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                   <li class="page-item">
@@ -56,6 +44,8 @@
                   <li class="page-item"><a class="page-link" href="#">Next</a></li>
                 </ul>
               </nav>
+            <div>
+                <a href="./m-add" class="btn btn-primary"> Add Menu</a></div>
         </div>
     </div>
 
@@ -65,25 +55,25 @@
             <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col" class="borderRed col-red">salesOrder</th>
-                    <th scope="col" class="borderRed col-red">username</th>
-                    <th scope="col" class="borderRed col-red">Mobile</th>
-                    <th scope="col" class="borderRed col-red">Product_ID</th>
-                    <th scope="col" class="borderRed col-red">Quatity</th>
-                    <th scope="col" class="borderRed col-red">TotalPrice</th>
-                    <th scope="col" class="borderRed col-red">Sales_Date</th>
+                    <th scope="col " class="borderRed col-big  col-red">Product Code</th>
+                    <th scope="col " class="borderRed col-big  col-red">Product Name</th>
+                    <th scope="col" class="borderRed  col-red">Product Detail</th>
+                    <th scope="col" class="borderRed  col-red">Price</th>
+                    <th scope="col " class="borderRed col-big  col-red">Publish Date</th>
+                    <th scope="col" class="borderRed col-red"><i class="fa-solid fa-file-pen"></i></th>
+                    <th scope="col " class="borderRed col-red"><i class="fa-solid fa-trash"></i></th>
                   </tr>
                 </thead>
                 <tbody>
                     <% for(let i of rows){ %>
                   <tr>
-                    <td class="borderRed"><%= i.salesOrder %></td>
-                    <td class="borderRed"><%= i.username %></td>
-                    <td class="borderRed"><%= i.mobile %></td>
-                    <td class="borderRed"><%= i.product_id %></td>
-                    <td class="borderRed"><%= i.quality %></td>
-                    <td class="borderRed"><%= i.TotalPrice %></td>
-                    <td class="borderRed"><%= toDateString(i.cart_created) %></td>
+                    <td class="borderRed col-big"><%= i.product_sid %></td>
+                    <td class="borderRed col-big"><%= i.product_name %></td>
+                    <td class="borderRed"><%= i.product_description %></td>
+                    <td class="borderRed"><%= i.price %></td>
+                    <td class="borderRed col-big"><%= toDateString(i.Publish_Date) %></td>
+                    <td class="borderRed"><a href="./m-update"><i class="fa-solid fa-file-pen"></i></a></td>
+                    <td class="borderRed"><a href="./m-delete"><i class="fa-solid fa-trash"></i></a></td>
                   </tr>
                  <% } %>
                 </tbody>
