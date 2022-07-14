@@ -1,7 +1,7 @@
 const path = require('path');
 const { decodeBase64 } = require('bcryptjs');
 const express = require('express');
-const db = require(__dirname + "/../modules/mysql_connect");
+const db = require('D:/MyProject/RamenPv3/backend/modules/mysql_connect.js');
 const route = express.Router();
 
 

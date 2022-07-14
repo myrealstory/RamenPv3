@@ -72,8 +72,8 @@
                     <td class="borderRed"><%= i.product_description %></td>
                     <td class="borderRed"><%= i.price %></td>
                     <td class="borderRed col-big"><%= toDateString(i.Publish_Date) %></td>
-                    <td class="borderRed"><a href="./m-update"><i class="fa-solid fa-file-pen"></i></a></td>
-                    <td class="borderRed"><a href="./m-delete"><i class="fa-solid fa-trash"></i></a></td>
+                    <td class="borderRed"><a href="./m-update/<%=i.product_sid%>"><i class="fa-solid fa-file-pen"></i></a></td>
+                    <td class="borderRed"><a href="./m-delete/<%=i.product_sid%>"><i class="fa-solid fa-trash"></i></a></td>
                   </tr>
                  <% } %>
                 </tbody>
