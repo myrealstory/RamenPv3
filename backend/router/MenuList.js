@@ -7,6 +7,7 @@ const { toDateString,
 const Joi = require('joi');
 const { application } = require('express');
 const session = require('express-session');
+const controller = require('../Public/controller/Controller');
 
 
 const router = express.Router();
@@ -106,9 +107,36 @@ router.get('/Menulist', async (req, res) => {
     }
 });
 
-router.get('/m-add', (req, res) => { 
+router.get('/m-add', async (req, res) => {
+    if (!req.session.admin) {
+        return res.redirect('namelist/no_main')
+    }
     res.render('menulist/m-add');
-})
+});
+router.post('/m-add', async (req, res) => {
+    if (!req.session.admin) {
+        return res.json({ success: false, error: '請先登入!' });
+    }
+
+    const schema = Joi.object({
+        product_name: Joi.string()
+            .min(3)
+            .required()
+            .label('這裡要填入菜名！'),
+        product_description: Joi.string()
+            .max(300).min(10)
+            .required()
+            .label('必須輸入餐點的介紹,最多300字,至少10字'),
+        price: Joi.number().required(),
+    });
+    res.json(schema.validate(req.body));
+
+    const sqlINS = "INSERT INTO product_detail (product_name,product_name,price) VALUES (?,?,?)";
+    const inserData = { ...req.body, Publish_Date: new Date() };
+    const [result] = await db.query(sql, [inserData]);
+
+    res.json(result);
+});
 
 router.get('/m-update', (req, res) => { 
     res.render('menulist/m-update');
@@ -117,5 +145,14 @@ router.get('/m-update', (req, res) => {
 app.route('/m-delete', (req, res) => { 
 
 })
+
+
+//API
+
+// route.post('/api/insertmenu', controller.create);
+// route.get('/api/', controller.create)
+route.put('/api/update/:id', controller.update);
+route.delete('/api/deletemenu/:id', controller.delete);
+
 
 module.exports = router;
