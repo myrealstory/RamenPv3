@@ -13,6 +13,9 @@ const controller = require('../Public/controller/Controller');
 const router = express.Router();
 const app = express();
 
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 const getListHandler = async (req, res) => {
     let output = {
         perPage: 5,
@@ -22,6 +25,7 @@ const getListHandler = async (req, res) => {
         code: 0,
         query: {},
         rows: [],
+        success:false,
     };
 
     let page = + req.query.page || 1;
@@ -119,11 +123,6 @@ router.post('/m-add',async (req, res) => {
     }
     // res.json(req.body);
 
-    const output2 = {
-        success: true,
-        error: '',
-    };
-
     // const schema = Joi.object({
     //     product_name: Joi.string()
     //         .min(3)
@@ -139,16 +138,16 @@ router.post('/m-add',async (req, res) => {
 //    res.send(schema.validate(req.body));
     const data = req.body;
 
-    const sqlINS = "INSERT INTO `product_detail` (`product_name`,`product_description`,`price`,`Publish_Date`) VALUES (?,?,?,?)";
+    const sqlINS = "INSERT INTO `product_detail` (`product_name`,`product_description`,`price`,`Publish_Date`) SET ?";
     // const inserData = { ...req.body, Publish_Date: new Date() };
-    const [result] = await db.query(sqlINS, [data.product_name, data.product_description, data.price, data.Publish_Date]);
+    const [result] = await db.query(sqlINS, data);
 
     if (result.affectedRows) { 
-        output.sucess = true;
+        output.success = true;
     }
 
-    res.json(output);
-    res.send("New list had been added in Menu!");
+    res.json(result);
+    // res.send("New list had been added in Menu!");
     res.redirect('menulist/m-add')
 });
 
