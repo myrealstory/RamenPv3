@@ -8,13 +8,16 @@ const Joi = require('joi');
 const { application } = require('express');
 const session = require('express-session');
 const controller = require('../Public/controller/Controller');
+const multer = require('multer');
+const bodyParser = require('body-parser');
 
 
+const upload = multer();
 const router = express.Router();
 const app = express();
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 const getListHandler = async (req, res) => {
     let output = {
@@ -117,7 +120,7 @@ router.get('/m-add',async (req, res) => {
     }
     res.render('menulist/m-add');
 })
-router.post('/m-add',async (req, res) => {
+router.post('/m-add',upload.array(),async (req, res) => {
     if (!req.session.admin) {
         return res.json({ success: false, error: '請先登入!' });
     }
@@ -138,26 +141,65 @@ router.post('/m-add',async (req, res) => {
 //    res.send(schema.validate(req.body));
     const data = req.body;
 
-    const sqlINS = "INSERT INTO `product_detail` (`product_name`,`product_description`,`price`,`Publish_Date`) SET ?";
-    // const inserData = { ...req.body, Publish_Date: new Date() };
-    const [result] = await db.query(sqlINS, data);
+    const output = {
+        success: false,
+        result: null,
+    }
+
+    // const sqlINS = "INSERT INTO `product_detail` (`product_name`,`product_description`,`price`,`Publish_Date`) SET ?";
+    const sqlINS = "INSERT INTO `product_detail` SET ?";
+    const inserData = { ...req.body, Publish_Date: new Date() };
+    const [result] = await db.query(sqlINS, [inserData]);
 
     if (result.affectedRows) { 
         output.success = true;
+        output.result = result;
     }
 
-    res.json(result);
+    res.json(output);
+  
     // res.send("New list had been added in Menu!");
-    res.redirect('menulist/m-add')
+    // res.redirect('menulist/m-add')
 });
 
-router.get('/m-update', (req, res) => { 
-    res.render('menulist/m-update');
+router.get('/m-delete/:id', async(req, res) => {
+    
+    const data = req.body;
+    const output = {
+        success: false,
+        result:null,
+    }
+    const sqlDel = "DELETE FROM product_detail WHERE product_sid = ?"
+    await db.query(sqlDel, [req.params.id], (err, rows) => { 
+        db.release();
+
+        if (!err) {
+            res.send(`The Food id:${data.product_sid} in Menu has been removed!`);
+        } else { 
+            console.log(err);
+        }
+    });
+
+    // res.json(output);
+    res.redirect('/../Menulist/menulist');
 })
 
-app.route('/m-delete', (req, res) => { 
+router.get('/m-update/:id',async (req, res) => { 
+    if (!req.session.admin) {
+        return res.render('namelist/no_main')
+    }
 
-})
+    const product_id = req.params.id;
+    const sql = "SELECT * FROM product_detail WHERE product_sid = ?";
+    const [query] = await db.query(sql, [product_id]); 
+    res.render('menulist/m-update', {
+            user: query[0],
+        });
+         });
+    
+    
+    
+
 
 
 //API

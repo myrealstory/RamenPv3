@@ -5,44 +5,87 @@
     <div class="container">
         <div class="box-nav d-flex justify-content-between">
             <a href="/../Menulist/menulist" class="noline"><i class="fa-solid fa-angles-left mr-2"></i> Back to Menu List</a>
-            <span class="text-gradient">Update Recipe in Menu<i class="fa-solid fa-utensils"></i></span>
+            <span class="text-gradient">Update <%= user.product_sid %> detail <i class="fa-solid fa-utensils"></i></span>
         </div>
 
-        <form action="/" method="POST" id="updateMenu" class="d-flex justify-content align-items-center">
-           <div class="new_menu pr-5">
-            <div class="w80">
-                <div class="form-group mb-3">
-                    <label for="productname" class="mb-2">Food Name :</label><br>
-                    <input type="hidden" name="id" value="">
-                    <input type="text" name="productname" value="" placeholder="put in product name" class="w100 itext">
+        <form action="" name="form1" onsubmit="sendFrom(event)" >
+           <div class="d-flex justify-content align-items-center">
+               <div class="new_menu pr-5">
+                <div class="w80">
+                    <div class="form-group mb-3">
+                        <label for="productname" class="mb-2">Food Name :</label><br>
+                        <!-- <input type="hidden" name="id" value=""> -->
+                        <input type="text" name="product_name" value="<%= user.product_name %>" placeholder="put in product name" class="w100 itext">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="productdetail" class="">Food Detail (with max 300 words):</label><br>
+                        <textarea type="text" name="product_description" value="" placeholder="type in detail of food" class="w100 htext"><%= user.product_description %></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="price" class="">Food Price :</label><br>
+                        <input type="text" name="price" value="<%= user.price %>" placeholder="price of food" class="w100 itext">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="publishDate" class="">Publish Date :</label><br>
+               
+                        <input type="date" name="Publish_Date" value="<%= toDateString(user.Publish_Date) %>"  class="w100 itext">
+                    </div>
+               
                 </div>
-                <div class="form-group mb-3">
-                    <label for="productdetail" class="">Food Detail (with max 300 words):</label><br>
-                    <textarea type="text" name="productdetail" value="" placeholder="type in detail of food" class="w100 htext"></textarea>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="price" class="">Food Price :</label><br>
-                    <input type="text" name="price" value="" placeholder="price of food" class="w100 itext">
-                </div>
-                <div class="form-group mb-3">
-                    <label for="publishDate" class="">Publish Date :</label><br>
-                
-                    <input type="date" name="publishDate" value=""  class="w100 itext">
-                </div>
-                <div class="form-group mb-3">
-                    <button type="submit" class="btn btn-primary">Update Food</button>
-                </div>
-            </div>
+               </div>
+               <div class="border-left d-flex align-items-center ml-5">
+                    <div class="uploadcol">
+                        <div class="upbox"></div>
+                        <button class="btn btn-primary w100 m0a" onclick="">upload Photo</button>
+                    </div>
+               </div>
            </div>
-           <div class="border-left d-flex align-items-center ml-5">
-                <div class="uploadcol">
-                    <div class="upbox"></div>
-                    <button class="btn btn-primary w100 m0a" onclick="">upload Photo</button>
-                </div>
-           </div>
+           <div class="form-group mb-3 d-flex justify-content-center mt-3">
+            <button type="submit" class="btn btn-primary w80">Update MY Food</button>
+        </div>
         </form>
     </div>
 </main>
 
 <%- include('../parts/script')%>
+<script>
+    const Joi = joi;
+
+    function sendFrom(event){
+        event.preventDefault();
+
+        const fd = new FormData(document.form1);
+        const dataObj = {};
+        for(let i of fd.entries()){
+            dataObj[i[0]] = i[1];
+        }
+
+        // const schema = Joi.object({
+        // product_name: Joi.string()
+        //     .min(3)
+        //     .required()
+        //     .label('這裡要填入菜名！'),
+        // product_description: Joi.string()
+        //     .max(300).min(10)
+        //     .required()
+        //     .label('必須輸入餐點的介紹,最多300字,至少10字'),
+        // price: Joi.number().required(),
+        // });
+        
+        const usp = new URLSearchParams(fd);
+
+        fetch('',{
+            method: 'POST',
+            body: fd,
+        })
+        // .then(console.log(JSON.stringify(fd)))
+        .then(r=>r.json())
+        .then(obj=>{
+            console.log(obj);
+            if(obj.success){
+                location.href = '/../Menulist/menulist';
+            }
+        })
+    }
+</script>
 <%- include('../parts/html-foot') %>
