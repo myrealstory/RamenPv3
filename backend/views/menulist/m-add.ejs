@@ -76,8 +76,9 @@
 
         fetch('',{
             method: 'POST',
-            body: usp.toString(),
-            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body:fd,
+            // body: usp.toString(),
+            // headers: {'Content-Type':'application/x-www-form-urlencoded'},
         })
         // .then(console.log(JSON.stringify(fd)))
         .then(r=>r.json())

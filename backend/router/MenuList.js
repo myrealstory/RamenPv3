@@ -196,17 +196,46 @@ router.get('/m-update/:id',async (req, res) => {
             user: query[0],
         });
          });
-    
-    
-    
+router.post('/m-update/:id', upload.array(),async (req, res) => { 
+    const output = {
+        success: false,
+        result : null,
+    }
 
+    // const data = {
+    //     product_name: req.body.product_name,
+    //     product_description: req.body.product_description,
+    //     price : req.body.price,
+    //     Publish_Date : req.body.Publish_Date,
+    // }
 
+    const product_id = req.params.id;
+    const data = req.body;
+    // const sqlUPD = "UPDATE `product_detail` SET `product_name`='" +req.body.product_name+"',`product_description`='"+req.body.product_description+"',`Publish_Date`='"+req.body.Publish_Date+"',`price`='"+req.body.price+"' WHERE `product_sid`='"+product_id+"'";
+    const sqlUPD = "UPDATE `product_detail` SET `product_name`=?,`product_description`=?,`Publish_Date`=?,`price`=? WHERE `product_sid`=?";
+    const [UPDquery] = await db.query(sqlUPD, [
+        data.product_name,
+        data.product_description,
+        data.Publish_Date,
+        data.price,
+        product_id,
+    ]);
+    
+    if (sqlUPD.affectedRows) { 
+        output.success = true;
+        output.result = sqlUPD;
+        
+    }
+    // res.redirect(`/../Menulist/menulist`);
+    res.json(output);
+    
+})
 
 //API
 
 // route.post('/api/insertmenu', controller.create);
 // route.get('/api/', controller.create)
-router.put('/api/update/:id', controller.update);
+// router.put('/api/update/:id', controller.update);
 router.delete('/api/deletemenu/:id', controller.delete);
 
 
