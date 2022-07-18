@@ -1,17 +1,22 @@
 import React from 'react'; //ES6 JS
 import { Link } from 'react-router-dom';
+import LOGO from '../Pages/img/Logo.png'
+import '../App.css'
 
 function Nav() {
+    const centerNav = {
+        justifyContent: 'center',
+    }
     return (
         <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid d-flex justify-content-bewteen">
+            <div class="container-fluid d-flex justify-content-around" >
                 <div>
                     <Link to="/" class="navbar-brand">
-                        <img src="img/Logo.png" alt="" class="logo"/>
+                        <img src={LOGO} alt="" class="logo"/>
                     </Link>
                 </div>
                
-                <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="collapse navbar-collapse" id="navbarNav" style={centerNav}>
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <Link to="/"

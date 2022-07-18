@@ -1,9 +1,14 @@
 import React from 'react';
+import './CSS/Main.css'
+import Nav from "../components/nav";
 
 const MainPage = () => {
     return (
-        <div>
-            <h1>HelloWorld</h1>
+        <div className='MBody'>
+            <div className='MContainer'>
+                <Nav />
+                
+            </div>
         </div>
     );
 };
