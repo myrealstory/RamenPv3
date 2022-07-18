@@ -1,66 +1,67 @@
 import React from 'react'; //ES6 JS
 import { Link } from 'react-router-dom';
 import LOGO from '../Pages/img/Logo.png'
-import '../App.css'
+// import '../App.css'
 
 function Nav() {
-    const centerNav = {
-        justifyContent: 'center',
-    }
+  
     return (
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid d-flex justify-content-around" >
-                <div>
-                    <Link to="/" class="navbar-brand">
-                        <img src={LOGO} alt="" class="logo"/>
-                    </Link>
-                </div>
-               
-                <div class="collapse navbar-collapse" id="navbarNav" style={centerNav}>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <Link to="/"
-                                class="nav-link active">
-                                HOME
-                            </Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link to="/" class="nav-link" href="#">
-                                FOOD MENU
-                            </Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link to="/" class="nav-link" href="#">
-                                ORDERS
-                            </Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link to="/" class="nav-link ">ABOUT US</Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link to="/" class="nav-link" href="#">
-                                LOCATION
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <ul class="d-flex ">
-                        <li></li>
-                        <li>
-                            <Link to="/" class="">
-                                Login / 
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/" class="pl-2">
-                                 Register
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+      <nav className="navbar navbar-expand-lg">
+        <div className="NavBar">
+          <div>
+            <Link to="/" className="navLogo">
+              <img src={LOGO} alt="" className="logo" />
+            </Link>
+          </div>
+
+          <div className="nav" id="navbarNav">
+            <ul className="navUL">
+              <li className="nav-item">
+                <Link to="/" className="nav-link active">
+                  HOME
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/" className="nav-link" href="#">
+                  FOOD MENU
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/" className="nav-link" href="#">
+                  ORDERS
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/" className="nav-link ">
+                  ABOUT US
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/" className="nav-link" href="#">
+                  LOCATION
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="navLogin">
+            <ul className="d-flex ">
+              <li className="navLi">
+                <i className="fa-solid fa-cart-arrow-down white"></i>
+              </li>
+              <li>
+                <Link to="/" className="Login_Red">
+                  Login /
+                </Link>
+              </li>
+              <li>
+                <Link to="/" className="pl-2 Login_Red">
+                  Register
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
     );
 }
 

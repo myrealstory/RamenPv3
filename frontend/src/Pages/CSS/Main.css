@@ -35,3 +35,29 @@
     background-color: #7A0000;
     box-shadow: 8px 6px 15px 1px rgba(0,0,0,0.41);
 }
+
+
+/*______RamenMain_____*/
+.w100 {
+    width: 100%;
+}
+.RamenMain {
+    align-items: flex-end;
+    height: 55vh;width: 90%;
+    margin: 0 auto;
+    position: relative;
+}
+.RamenMain>.RamenTitle {
+    position: absolute;
+    width: 70%;
+    margin-left: 5rem;
+    z-index: 1;
+}
+.CupRamen {
+    width: 40%;
+    height: 105%;
+    position: absolute;
+    left: 55%;
+    top: 3%;
+    
+}
