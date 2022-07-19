@@ -1,8 +1,7 @@
-import logo from "./logo.svg";
-import "./App.css";
 
-import Home from './components/Home';
-import FoodMenu from "./components/FoodMenu";
+import "./App.css";
+import FoodMenu from './Pages/components/FoodMenu'
+import Home from "./Pages/components/Home";
 import MainPage  from "./Pages/Main";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 

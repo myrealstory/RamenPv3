@@ -74,11 +74,18 @@
   /* padding-top: 1rem; */
 }
 
+.navLi>a {
+  transform: scale(1.2);
+  width: 100%;
+}
+
 .white {
   color: white;
   fill: white;
 }
-
+.mr-3 {
+  margin-right: 1.5rem;
+}
 .Login_Red {
   font-size: 1.1rem;
   padding-top: 1rem !important;
