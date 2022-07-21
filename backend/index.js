@@ -3,10 +3,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const bcrypt = require('bcryptjs');
-const cors = require('cors');
 const mysql = require('mysql2');
 const session = require('express-session');
 const moment = require('moment-timezone');
+const jwt = require('jsonwebtoken');
 
 const {
   toDateString,
@@ -23,6 +23,17 @@ const sessionStore = new MysqlStore({},db);//這裡三個步驟逝固定的。�
 //view engine setup
 app.set("view engine", "ejs");
 
+const cors = require("cors");
+const whitelist = [];
+const corsOption = {
+  Credential: true,
+  origin: (origin, cb) => {
+    console.log("origin:" + origin);
+    cb(null, true);
+  },
+};
+
+app.use(cors(corsOption));
 
 app.use(session({
   saveUninitialized: false,
@@ -43,7 +54,15 @@ app.use((req, res, next) => {
     // Template Helper Function
   res.locals.toDateString = toDateString;
   res.locals.toDatetimeString = toDatetimeString;
-    res.locals.session = req.session;
+  res.locals.session = req.session;
+  
+  const auth = req.get('Authorization');
+  res.locals.payload = null;
+  if (auth && auth.indexOf('Bearer ') === 0) { 
+    const token = auth.slice(7);
+    res.locals.payload = jwt.verify(token, process.env.JWT_SECRET);
+
+  }
 
     next();
 })
@@ -61,13 +80,14 @@ app.use('/joi', express.static("node_modules/joi/dist"));
 // -----------------404---------------
 app.route("/")
     .get(async (req, res) => {
-    res.render("login");
+    res.render("login2");
     })
     .post(async (req, res) => {
-    const output = {
-      success: false,
-      error: '',
-      code: 0,
+      const output = {
+        success: false,
+        error: '',
+        code: 0,
+        data: {},
     };
     const sql = "SELECT * FROM admin WHERE username=?";
     const [r1] = await db.query(sql, [req.body.username]);
@@ -82,10 +102,19 @@ app.route("/")
       output.code = 402;
       output.error = "密碼錯誤";
     } else {
-      req.session.admin = {
+      //成功登入
+      const token = jwt.sign({
         sid: r1[0].sid,
-        username: r1[0].username,
-      };
+        account: r1[0].username,
+      }, process.env.JWT_SECRET);
+      output.data = {
+        token,
+        account: r1[0].username,
+      }
+      // req.session.admin = {
+      //   sid: r1[0].sid,
+      //   username: r1[0].username,
+      // };
     }
     res.json(output);
     });

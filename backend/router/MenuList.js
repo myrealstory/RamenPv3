@@ -231,7 +231,22 @@ router.post('/m-update/:id', upload.array(),async (req, res) => {
     
 })
 
+
+
 //API
+
+router.get('/api', async (req,res)=>{
+
+    const output = await getListHandler(req, res);
+ 
+    res.json(output);
+}); //如果是 /api的話就只呈現json格式
+router.get('/api/menu', async (req, res) => {
+    
+    const sqlmenu = "SELECT * FROM product_detail WHERE 1";
+    const output = await db.query(sqlmenu);
+    res.json(output);
+}); //如果是 /api的話就只呈現json格式
 
 // route.post('/api/insertmenu', controller.create);
 // route.get('/api/', controller.create)
