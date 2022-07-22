@@ -104,4 +104,20 @@ router.get('/main', async (req, res) => {
     }
 });
 
+router.get("/admin/api", async (req, res) => {
+  const sqladmin = "SELECT * FROM admin WHERE 1";
+  const [output] = await db.query(sqladmin);
+  res.json(output);
+}); //如果是 /api的話就只呈現json格式
+router.get("/member/api", async (req, res) => {
+  const sqlmember = "SELECT * FROM member WHERE 1";
+  const [output] = await db.query(sqlmember);
+  res.json(output);
+}); //如果是 /api的話就只呈現json格式
+router.get("/news/api", async (req, res) => {
+  const sql = "SELECT * FROM news WHERE 1";
+  const [output] = await db.query(sql);
+  res.json(output);
+});
+
 module.exports = router;

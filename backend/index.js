@@ -81,7 +81,7 @@ app.use('/joi', express.static("node_modules/joi/dist"));
 // -----------------404---------------
 app.route("/")
     .get(async (req, res) => {
-    res.render("login2");
+    res.render("login");
     })
     .post(async (req, res) => {
       const output = {
@@ -104,18 +104,18 @@ app.route("/")
       output.error = "密碼錯誤";
     } else {
       //成功登入
-      const token = jwt.sign({
-        sid: r1[0].sid,
-        account: r1[0].username,
-      }, process.env.JWT_SECRET);
-      output.data = {
-        token,
-        account: r1[0].username,
-      }
-      // req.session.admin = {
+      // const token = jwt.sign({
       //   sid: r1[0].sid,
-      //   username: r1[0].username,
-      // };
+      //   account: r1[0].username,
+      // }, process.env.JWT_SECRET);
+      // output.data = {
+      //   token,
+      //   account: r1[0].username,
+      // }
+      req.session.admin = {
+        sid: r1[0].sid,
+        username: r1[0].username,
+      };
     }
     res.json(output);
     });
@@ -133,18 +133,7 @@ app.route('/update')
 
   })
 
-router.get('/api/admin', async (req, res) => {
-    
-    const sqladmin = "SELECT * FROM admin ";
-    const output = await db.query(sqladmin);
-    res.json(output);
-}); //如果是 /api的話就只呈現json格式
-router.get('/api/member', async (req, res) => {
-    
-    const sqlmember = "SELECT * FROM member ";
-    const output = await db.query(sqlmember);
-    res.json(output);
-}); //如果是 /api的話就只呈現json格式
+
 
 app.use('/Namelist', require(__dirname + '/router/NameList'))
 app.use('/Menulist', require(__dirname + '/router/MenuList'))
