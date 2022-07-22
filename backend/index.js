@@ -7,6 +7,7 @@ const mysql = require('mysql2');
 const session = require('express-session');
 const moment = require('moment-timezone');
 const jwt = require('jsonwebtoken');
+const router = express.Router();
 
 const {
   toDateString,
@@ -131,6 +132,19 @@ app.route('/update')
   .post(async(req, res) => { 
 
   })
+
+router.get('/api/admin', async (req, res) => {
+    
+    const sqladmin = "SELECT * FROM admin ";
+    const output = await db.query(sqladmin);
+    res.json(output);
+}); //如果是 /api的話就只呈現json格式
+router.get('/api/member', async (req, res) => {
+    
+    const sqlmember = "SELECT * FROM member ";
+    const output = await db.query(sqlmember);
+    res.json(output);
+}); //如果是 /api的話就只呈現json格式
 
 app.use('/Namelist', require(__dirname + '/router/NameList'))
 app.use('/Menulist', require(__dirname + '/router/MenuList'))
