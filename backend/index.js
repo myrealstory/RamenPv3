@@ -138,6 +138,8 @@ app.route('/update')
 app.use('/Namelist', require(__dirname + '/router/NameList'))
 app.use('/Menulist', require(__dirname + '/router/MenuList'))
 
+app.use("/Member", require(__dirname + "/router/MemberList"));
+
 // app.get("/Menulist",(req, res) => {
 //     res.render('menulist');
 // });

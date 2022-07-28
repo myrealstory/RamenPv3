@@ -1,0 +1,98 @@
+<%- include('../parts/html-head') %>
+<%- include('../parts/navbar')%>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form class="d-flex" role="search">
+                <input type="date" class="form-control me-2" name="beginDate" value="<%= query.beginDate ? query.beginDate : '' %>">
+                <input type="date" class="form-control me-2" placeholder="生日結束" name="endDate" value="<%= query.endDate ? query.endDate : '' %>">
+                <input class="form-control me-2" 
+                        type="search" 
+                        placeholder="Search" 
+                        name = "search"
+                        value="<%= query.search ? query.search : '' %>">
+                        
+      
+                <button class="btn btn-outline-success" 
+                        type="submit">Search</button>
+              </form>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link" href="#">Previous</a>
+                    </li>
+
+                    <% for(let i=page-5; i<=page+5; i++) if(i>0 
+                    ){ 
+                        const queryobj =  {page: i };
+                        if(query.search){
+                            queryobj.search = query.search;
+                        }
+                         
+                        if(query.beginDate){
+                            queryobj.beginDate = query.beginDate;
+                        }
+                        if(query.endDate){
+                            queryobj.endDate = query.endDate;
+                        }
+
+                        const myLink = new URLSearchParams(queryobj).toString();
+                        
+                        %>
+                    <li class="page-item <%= page===i ? 'active' : '' %>">
+                        <a class="page-link" href="?<%= myLink %>"><%= i %></a>
+                    </li>
+                    <% } %>
+                    <!-- <li class="page-item">
+                        <a class="page-link" href="?page=1">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=2">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=3">3</a>
+                    </li> -->
+                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+              </nav>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col" class="borderRed col-red">SID</th>
+                    <th scope="col" class="borderRed col-red">Username</th>
+                    <th scope="col" class="borderRed col-red">Created_at</th>
+                    <th scope="col" class="borderRed col-red">Mobile</th>
+                    <th scope="col" class="borderRed col-red">Address</th>
+                    <th scope="col" class="borderRed col-red">Birthday</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% for(let i of rows){ %>
+                  <tr>
+                    <td class="borderRed"><%= i.sid %></td>
+                    <td class="borderRed"><%= i.username %></td>
+                    <td class="borderRed"><%= toDateString(i.created_at) %></td>
+                    <td class="borderRed"><%= i.mobile %></td>
+                    <td class="borderRed"><%= i.address %></td>
+                    <td class="borderRed"><%= toDateString(i.birthday) %></td>
+                  </tr>
+                 <% } %>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+<%- include('../parts/script')%>
+
+<script>
+    const rows = <%- JSON.stringify(rows) %>;
+</script>
+
+<%- include('../parts/html-foot') %>
