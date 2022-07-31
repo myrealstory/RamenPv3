@@ -42,7 +42,7 @@ app.use(session({
   secret:'dkfdl12fewv923fdmks202r12', // 加密cookie用的
   store: sessionStore, //因建立了資料庫。所以cookie會把加密用代號存到sql裡面，設立叫store
   cookie:{
-      maxAge: 1200000,//毫秒 這樣兩分鐘
+      maxAge: 12000000,//毫秒 這樣兩分鐘
    }, //這裡可以設定cookie存活的時間。
 
 }));

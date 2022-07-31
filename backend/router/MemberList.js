@@ -1,4 +1,8 @@
 const express = require("express");
+require("dotenv").config();
+
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const db = require(__dirname + "/../modules/mysql_connect");
 const moment = require("moment-timezone");
@@ -103,6 +107,53 @@ router.get("/main", async (req, res) => {
   } else {
     res.render("member/main", output);
   }
+});
+
+router.get('/login',async (req, res) => {
+    res.render("member/login");
+  })
+  router.post('/login',async (req, res) => {
+    const output = {
+      success: false,
+      error: "",
+      code: 0,
+      data: {},
+    };
+    const sql = "SELECT * FROM member WHERE username=?";
+    const [r1] = await db.query(sql, [req.body.username]);
+    if (!r1.length) {
+      output.code = 401;
+      output.error = "帳密錯誤";
+      return res.json(output);
+    }
+
+    output.success = await bcrypt.compare(req.body.password, r1[0].password);
+    if (!output.success) {
+      output.code = 402;
+      output.error = "密碼錯誤";
+    } else {
+      //成功登入
+      const token = jwt.sign({
+        sid: r1[0].sid,
+        account: r1[0].username,
+      }, process.env.JWT_SECRET);
+      output.data = {
+        token,
+        sid: r1[0].sid,
+        account: r1[0].username,
+      };
+
+      // req.session.admin = {
+      //   sid: r1[0].sid,
+      //   username: r1[0].username,
+      // };
+    }
+    res.json(output);
+  });
+
+app.get("/logout", (req, res) => {
+  delete req.session.admin;
+  res.redirect("/login");
 });
 
 router.get("/member/api", async (req, res) => {
