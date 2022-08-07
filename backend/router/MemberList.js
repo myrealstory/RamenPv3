@@ -11,6 +11,7 @@ const { toDateString, toDatetimeString } = require(__dirname +
 const Joi = require("joi");
 const { application } = require("express");
 const session = require("express-session");
+const { route } = require("./MenuList");
 
 const router = express.Router();
 const app = express();
@@ -151,6 +152,28 @@ router.get('/login',async (req, res) => {
     res.json(output);
   });
 
+router.get('/register',async  (req, res) => { 
+  res.render("member/register");
+})
+router.post('/register', async (req, res) => { 
+  const output = {
+    success: false,
+    result : null,
+  };
+
+  const hash = await bcrypt.hash(req.body.password, 10);
+  const Regsql = "INSERT INTO `member` SET ?";
+  const inserReg = { ...req.body, created_at: new Date() ,password: hash };
+  const [result] = await db.query(Regsql, [inserReg]);
+  
+  if (result.affectedRows) { 
+    output.success = true,
+    output.result = result
+  }
+
+  res.json(output);
+})
+
 app.get("/logout", (req, res) => {
   delete req.session.admin;
   res.redirect("/login");
@@ -161,6 +184,8 @@ router.get("/member/api", async (req, res) => {
   const [output] = await db.query(sqladmin);
   res.json(output);
 }); //如果是 /api的話就只呈現json格式
+
+
 
 
 module.exports = router;
