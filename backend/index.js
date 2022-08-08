@@ -139,6 +139,7 @@ app.use('/Namelist', require(__dirname + '/router/NameList'))
 app.use('/Menulist', require(__dirname + '/router/MenuList'))
 
 app.use("/Member", require(__dirname + "/router/MemberList"));
+app.use("/CartList", require(__dirname + "/router/CartList"));
 
 // app.get("/Menulist",(req, res) => {
 //     res.render('menulist');

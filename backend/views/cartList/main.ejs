@@ -1,0 +1,90 @@
+<%- include('../parts/html-head') %>
+<%- include('../parts/navbar')%>
+
+<div class="container">
+    <div class="row">
+        <div class="col d-flex justify-content-between">
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link" href="#">Previous</a>
+                    </li>
+
+                    <% for(let i=page-5; i<=page+5; i++) if(i>0 
+                    ){ 
+                        const queryobj =  {page: i };
+                        if(query.search){
+                            queryobj.search = query.search;
+                        }
+                         
+                        if(query.beginDate){
+                            queryobj.beginDate = query.beginDate;
+                        }
+                        if(query.endDate){
+                            queryobj.endDate = query.endDate;
+                        }
+
+                        const myLink = new URLSearchParams(queryobj).toString();
+                        
+                        %>
+                    <li class="page-item <%= page===i ? 'active' : '' %>">
+                        <a class="page-link" href="?<%= myLink %>"><%= i %></a>
+                    </li>
+                    <% } %>
+                    <!-- <li class="page-item">
+                        <a class="page-link" href="?page=1">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=2">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=3">3</a>
+                    </li> -->
+                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+              </nav>
+            <div>
+                <a href="./m-add" class="btn btn-primary"> Add Menu</a></div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col " class="borderRed col-big  col-red">Product Code</th>
+                    <th scope="col " class="borderRed col-big  col-red">Product Name</th>
+                    <th scope="col" class="borderRed  col-red">Product Detail</th>
+                    <th scope="col" class="borderRed  col-red">Price</th>
+                    <th scope="col " class="borderRed col-big  col-red">Publish Date</th>
+                    <th scope="col" class="borderRed col-red"><i class="fa-solid fa-file-pen"></i></th>
+                    <th scope="col " class="borderRed col-red"><i class="fa-solid fa-trash"></i></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% for(let i of rows){ %>
+                  <tr>
+                    <td class="borderRed col-big"><%= i.product_sid %></td>
+                    <td class="borderRed col-big"><%= i.product_name %></td>
+                    <td class="borderRed"><%= i.product_description %></td>
+                    <td class="borderRed"><%= i.price %></td>
+                    <td class="borderRed col-big"><%= toDateString(i.Publish_Date) %></td>
+                    <td class="borderRed"><a href="./m-update/<%=i.product_sid%>"><i class="fa-solid fa-file-pen"></i></a></td>
+                    <td class="borderRed"><a href="./m-delete/<%=i.product_sid%>"><i class="fa-solid fa-trash"></i></a></td>
+                  </tr>
+                 <% } %>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+<%- include('../parts/script')%>
+
+<script>
+    const rows = <%- JSON.stringify(rows) %>;
+</script>
+
+<%- include('../parts/html-foot') %>
