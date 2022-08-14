@@ -164,7 +164,8 @@ router.post('/register', async (req, res) => {
   const hash = await bcrypt.hash(req.body.password, 10);
   const Regsql = "INSERT INTO `member` SET ?";
   const inserReg = { ...req.body, created_at: new Date() ,password: hash };
-  const [result] = await db.query(Regsql, [inserReg]);
+  try{
+    const [result] = await db.query(Regsql, [inserReg]);
   
   if (result.affectedRows) { 
     output.success = true,
@@ -172,6 +173,10 @@ router.post('/register', async (req, res) => {
   }
 
   res.json(output);
+  }catch(err){
+    res.json(err);
+  }
+  
 })
 
 app.get("/logout", (req, res) => {
