@@ -102,6 +102,14 @@ router.get("/", async (req, res) => {
       return res.redirect(`?page=${output.totalPages}`);
       break;
   }
+
+  rounter.post('/Push', async (req,res)=>{
+    const output = {
+      success: false,
+      result : null,
+    };
+    
+  })
   // res.render('namelist/main', output);
   if (!req.session.admin) {
     res.render("namelist/no_main", output);
