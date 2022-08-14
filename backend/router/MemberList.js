@@ -179,7 +179,7 @@ app.get("/logout", (req, res) => {
   res.redirect("/login");
 });
 
-router.get("/member/api", async (req, res) => {
+router.get("/api", async (req, res) => {
   const sqladmin = "SELECT * FROM member WHERE 1";
   const [output] = await db.query(sqladmin);
   res.json(output);
