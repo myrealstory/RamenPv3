@@ -103,11 +103,15 @@ router.get("/", async (req, res) => {
       break;
   }
 
-  rounter.post('/Push', async (req,res)=>{
+  router.post('/CreateCart', async (req,res)=>{
     const output = {
       success: false,
       result : null,
     };
+    const fetchin = req.body;
+    const pushOrderDetail = `INSERT INTO order_detail SET ?`
+    const detail = {Sales_Order: fetchin.Sales_Order, product_sid:fetchin.product_sid, username:fetchin.username, amount:fetchin.amount, price_amount:fetchin.price_amount}
+    
     
   })
   // res.render('namelist/main', output);
@@ -117,6 +121,8 @@ router.get("/", async (req, res) => {
     res.render("cartList/main", output);
   }
 });
+
+
 
 
 module.exports = router;
