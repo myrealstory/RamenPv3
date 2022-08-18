@@ -71,7 +71,7 @@ const getListHandler = async (req, res) => {
             return res.redirect(`?page=${totalPages}`);
         }
         // const sql02 = `SELECT * FROM member ${where} ORDER BY sid ASC LIMIT ${(page - 1) * output.perPage},${output.perPage}`;
-        const sql02 = `SELECT order_detail.sid,member.mobile,member.username,order_detail.username,order_detail.product_id,order_detail.amount,order_detail.price_amount FROM order_detail JOIN member ON member.username = order_detail.username ORDER BY SID ASC LIMIT ${(page - 1) * output.perPage},${output.perPage}`;
+        const sql02 = `SELECT order_detail.sid,member.mobile,member.username,order_detail.username,order_detail.product_sid,order_detail.amount,order_detail.price_amount FROM order_detail JOIN member ON member.username = order_detail.username ORDER BY SID ASC LIMIT ${(page - 1) * output.perPage},${output.perPage}`;
         // SELECT `salesOrder`,`member`.`mobile`,`cart`.`username`,`product_id`,`quality`,`TotalPrice`,`cart_created` FROM `cart` JOIN `member` ON `member`.`username` = `cart`.`username` ORDER BY `salesOrder` ASC;
         const [r2] = await db.query(sql02);
         r2.forEach(element => element.cart_created = toDateString(element.cart_created));

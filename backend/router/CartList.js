@@ -12,7 +12,9 @@ const Joi = require("joi");
 const { application } = require("express");
 const session = require("express-session");
 const { route } = require("./MenuList");
+const multer = require("multer");
 
+const upload = multer();
 const router = express.Router();
 const app = express();
 
@@ -75,7 +77,7 @@ const getListHandler = async (req, res) => {
       return res.redirect(`?page=${totalPages}`);
     }
     // const sql02 = `SELECT * FROM member ${where} ORDER BY sid ASC LIMIT ${(page - 1) * output.perPage},${output.perPage}`;
-    const sql02 = `SELECT * FROM order_list JOIN order_detail ORDER BY sid ASC LIMIT ${
+    const sql02 = `SELECT * FROM order_list JOIN order_detail ORDER BY order_list.SID ASC LIMIT ${
       (page - 1) * output.perPage
     },${output.perPage}`;
     // SELECT `salesOrder`,`member`.`mobile`,`cart`.`username`,`product_id`,`quality`,`TotalPrice`,`cart_created` FROM `cart` JOIN `member` ON `member`.`username` = `cart`.`username` ORDER BY `salesOrder` ASC;
@@ -101,19 +103,8 @@ router.get("/", async (req, res) => {
     case 420:
       return res.redirect(`?page=${output.totalPages}`);
       break;
-  }
-
-  router.post('/CreateCart', async (req,res)=>{
-    const output = {
-      success: false,
-      result : null,
-    };
-    const fetchin = req.body;
-    const pushOrderDetail = `INSERT INTO order_detail SET ?`
-    const detail = {Sales_Order: fetchin.Sales_Order, product_sid:fetchin.product_sid, username:fetchin.username, amount:fetchin.amount, price_amount:fetchin.price_amount}
-    
-    
-  })
+  }  
+  
   // res.render('namelist/main', output);
   if (!req.session.admin) {
     res.render("namelist/no_main", output);
@@ -122,7 +113,53 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.post("/CreateCart", async (req, res) => {
+  const output = {
+    success: false,
+    success2:false,
+    result1: null,
+    result2:null,
+  };
+  const fetchin = req.body;
+  console.log(fetchin);
+  const pushOrderList = `INSERT INTO order_list SET ?`;
+  const pushOrderDetail = `INSERT INTO order_detail SET ?`;
+  const detailOrderList = {
+    username: fetchin.username,
+    Total_Price: fetchin.Total_Price,
+    Cart_Created: new Date(),
+    status: fetchin.status,
+    Discount: null,
+  };
+  try {
+    const [result1] = await db.query(pushOrderList, [detailOrderList]);
+    for (let i of fetchin.OrderDetail) {
 
+      const detailOrderDetail = {
+        Sales_Order: fetchin.usersid,
+        product_sid: i.product_sid,
+        username: fetchin.username,
+        amount: i.quantity,
+        price_amount: i.itemTotal,
+        Create_at: new Date(),
+      };
+      
+      const [result2] = await db.query(pushOrderDetail, [detailOrderDetail]);
+
+      if (result2.affectedRows) { 
+        output.success2 = true;
+        output.result2 = result2;
+      }
+    }
+
+    if (result1.affectedRows) {
+      output.success = true;
+      output.result1 = result1;
+    }
+
+    res.json(output);
+  } catch (err) {}
+});
 
 
 module.exports = router;

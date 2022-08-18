@@ -59,7 +59,7 @@
                     <th scope="col " class="borderRed col-big  col-red">Product Name</th>
                     <th scope="col" class="borderRed  col-red">Product Detail</th>
                     <th scope="col" class="borderRed  col-red">Price</th>
-                    <th scope="col " class="borderRed col-big  col-red">Publish Date</th>
+                    <th scope="col " class="borderRed col-big  col-red">Created_at</th>
                     <th scope="col" class="borderRed col-red"><i class="fa-solid fa-file-pen"></i></th>
                     <th scope="col " class="borderRed col-red"><i class="fa-solid fa-trash"></i></th>
                   </tr>
@@ -67,11 +67,11 @@
                 <tbody>
                     <% for(let i of rows){ %>
                   <tr>
-                    <td class="borderRed col-big"><%= i.product_sid %></td>
-                    <td class="borderRed col-big"><%= i.product_name %></td>
-                    <td class="borderRed"><%= i.product_description %></td>
-                    <td class="borderRed"><%= i.price %></td>
-                    <td class="borderRed col-big"><%= toDateString(i.Publish_Date) %></td>
+                    <td class="borderRed col-big"><%= i.SID %></td>
+                    <td class="borderRed col-big"><%= i.username %></td>
+                    <td class="borderRed"><%= i.Total_Price %></td>
+                    <td class="borderRed"><%= i.status %></td>
+                    <td class="borderRed col-big"><%= toDateString(i.Create_at) %></td>
                     <td class="borderRed"><a href="./m-update/<%=i.product_sid%>"><i class="fa-solid fa-file-pen"></i></a></td>
                     <td class="borderRed"><a href="./m-delete/<%=i.product_sid%>"><i class="fa-solid fa-trash"></i></a></td>
                   </tr>
