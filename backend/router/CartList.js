@@ -121,22 +121,26 @@ router.post("/CreateCart", async (req, res) => {
     result2:null,
   };
   const fetchin = req.body;
-  console.log(fetchin);
+  // console.log(fetchin);
   const pushOrderList = `INSERT INTO order_list SET ?`;
+  // const pushOrderList = 'INSERT INTO `order_list` (`username`,`Total_Price`,`Cart_Created`,`status`,`Discount`) VALUES (?,?,?,?,?)'
   const pushOrderDetail = `INSERT INTO order_detail SET ?`;
   const detailOrderList = {
     username: fetchin.username,
     Total_Price: fetchin.Total_Price,
     Cart_Created: new Date(),
     status: fetchin.status,
-    Discount: null,
+    Discount: fetchin.Discount? +fetchin.Discount : 0,
   };
   try {
     const [result1] = await db.query(pushOrderList, [detailOrderList]);
+    // console.log(result1);
+    const r1sid = result1.insertId;
+    // console.log(r1sid);
     for (let i of fetchin.OrderDetail) {
 
       const detailOrderDetail = {
-        Sales_Order: fetchin.usersid,
+        Sales_Order: r1sid,
         product_sid: i.product_sid,
         username: fetchin.username,
         amount: i.quantity,
@@ -145,7 +149,7 @@ router.post("/CreateCart", async (req, res) => {
       };
       
       const [result2] = await db.query(pushOrderDetail, [detailOrderDetail]);
-
+      // console.log(result2);
       if (result2.affectedRows) { 
         output.success2 = true;
         output.result2 = result2;
@@ -158,7 +162,9 @@ router.post("/CreateCart", async (req, res) => {
     }
 
     res.json(output);
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 
