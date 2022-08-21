@@ -20,7 +20,7 @@ const app = express();
 
 const getListHandler = async (req, res) => {
   let output = {
-    perPage: 5,
+    perPage: 10,
     page: 1,
     totalRows: 0,
     totalPage: 0,
@@ -37,14 +37,14 @@ const getListHandler = async (req, res) => {
   let where = " WHERE 1";
 
   if (search) {
-    where += `AND name LIKE ${db.escape("%" + search + "%")}`;
+    where += `AND product_name LIKE ${db.escape("%" + search + "%")}`;
     output.query.search = search;
     output.showTest = db.escape("%" + search + "%");
   }
   if (beginDate) {
     const mo = moment(beginDate);
     if (mo.isValid()) {
-      where += `AND Cart_Created >= '${mo.format("YYYY-MM-DD")}' `;
+      where += `AND Create_at >= '${mo.format("YYYY-MM-DD")}' `;
       output.query.beginDate = mo.format("YYYY-MM-DD");
     }
   }
@@ -52,7 +52,7 @@ const getListHandler = async (req, res) => {
   if (endDate) {
     const mo = moment(endDate);
     if (mo.isValid()) {
-      where += `AND Cart_Created >= '${mo.format("YYYY-MM-DD")}' `;
+      where += `AND Create_at >= '${mo.format("YYYY-MM-DD")}' `;
       output.query.endDate = mo.format("YYYY-MM-DD");
     }
   }
@@ -65,7 +65,7 @@ const getListHandler = async (req, res) => {
 
   // const sql01 = `SELECT Count(1) totalRows FROM member ${where}`;
   // const sql01 = `SELECT Count(salesOrder,member.mobile,cart.username,product_id,quality,TotalPrice,cart_created) totalRows FROM cart JOIN member ON member.username = cart.username ${where}`;
-  const sql01 = `SELECT Count(1) totalRows FROM order_list JOIN order_detail ${where}`;
+  const sql01 = `SELECT Count(1) totalRows FROM order_detail JOIN order_list,member ${where}`;
   const [[totalRows]] = await db.query(sql01);
   let totalPages = 0;
   if (totalRows) {
@@ -77,15 +77,16 @@ const getListHandler = async (req, res) => {
       return res.redirect(`?page=${totalPages}`);
     }
     // const sql02 = `SELECT * FROM member ${where} ORDER BY sid ASC LIMIT ${(page - 1) * output.perPage},${output.perPage}`;
-    const sql02 = `SELECT * FROM order_list JOIN order_detail ORDER BY order_list.SID ASC LIMIT ${
+    const sql02 = `SELECT * FROM order_detail JOIN order_list ON order_detail.username IN (order_list.username) ORDER BY order_detail.Sales_Order DESC LIMIT ${
       (page - 1) * output.perPage
     },${output.perPage}`;
     // SELECT `salesOrder`,`member`.`mobile`,`cart`.`username`,`product_id`,`quality`,`TotalPrice`,`cart_created` FROM `cart` JOIN `member` ON `member`.`username` = `cart`.`username` ORDER BY `salesOrder` ASC;
     const [r2] = await db.query(sql02);
     r2.forEach(
-      (element) => (element.cart_created = toDateString(element.cart_created))
+      (element) => (element.Create_at = toDateString(element.Create_at))
     );
     output.rows = r2;
+    console.log(r2);
   }
   output.code = 200;
 
@@ -142,7 +143,10 @@ router.post("/CreateCart", async (req, res) => {
       const detailOrderDetail = {
         Sales_Order: r1sid,
         product_sid: i.product_sid,
+        product_name: i.product_name,
         username: fetchin.username,
+        CustomerName: fetchin.CustomerName,
+        Mobile:fetchin.mobile,
         amount: i.quantity,
         price_amount: i.itemTotal,
         Create_at: new Date(),

@@ -55,25 +55,32 @@
             <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col " class="borderRed col-big  col-red">Product Code</th>
-                    <th scope="col " class="borderRed col-big  col-red">Product Name</th>
-                    <th scope="col" class="borderRed  col-red">Product Detail</th>
-                    <th scope="col" class="borderRed  col-red">Price</th>
-                    <th scope="col " class="borderRed col-big  col-red">Created_at</th>
+                    <th scope="col " class="borderRed col-big  col-red">訂單編號</th>
+                    <th scope="col " class="borderRed col-big  col-red">客戶名稱</th>
+                    <th scope="col " class="borderRed col-big  col-red">電話號碼</th>
+                    <th scope="col " class="borderRed   col-red">訂購產品</th>
+                    <th scope="col " class="borderRed col-big  col-red">產品數量</th>
+                    <th scope="col" class="borderRed  col-red col-big">單品價格</th>
+                    <th scope="col " class="borderRed col-big  col-red">訂單狀態</th>
+                    <th scope="col " class="borderRed col-big  col-red">訂單日期</th>
                     <th scope="col" class="borderRed col-red"><i class="fa-solid fa-file-pen"></i></th>
                     <th scope="col " class="borderRed col-red"><i class="fa-solid fa-trash"></i></th>
                   </tr>
                 </thead>
                 <tbody>
                     <% for(let i of rows){ %>
+                        <%console.log(i)%>
                   <tr>
-                    <td class="borderRed col-big"><%= i.SID %></td>
-                    <td class="borderRed col-big"><%= i.username %></td>
-                    <td class="borderRed"><%= i.Total_Price %></td>
+                    <td class="borderRed col-big"><%= `Shao206510${i.Sales_Order}01250` %></td>
+                    <td class="borderRed col-big"><%= i.CustomerName %></td>
+                    <td class="borderRed col-big"><%= i.Mobile %></td>
+                    <td class="borderRed "><%= i.product_name %></td>
+                    <td class="borderRed col-big"><%= i.amount %></td>
+                    <td class="borderRed"><%= i.price_amount %></td>
                     <td class="borderRed"><%= i.status %></td>
                     <td class="borderRed col-big"><%= toDateString(i.Create_at) %></td>
-                    <td class="borderRed"><a href="./m-update/<%=i.product_sid%>"><i class="fa-solid fa-file-pen"></i></a></td>
-                    <td class="borderRed"><a href="./m-delete/<%=i.product_sid%>"><i class="fa-solid fa-trash"></i></a></td>
+                    <td class="borderRed"><a href="./m-update/<%=i.sid%>"><i class="fa-solid fa-file-pen"></i></a></td>
+                    <td class="borderRed"><a href="./m-delete/<%=i.sid%>"><i class="fa-solid fa-trash"></i></a></td>
                   </tr>
                  <% } %>
                 </tbody>
