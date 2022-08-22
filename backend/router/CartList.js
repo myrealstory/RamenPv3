@@ -146,7 +146,7 @@ router.post("/CreateCart", async (req, res) => {
         product_name: i.product_name,
         username: fetchin.username,
         CustomerName: fetchin.CustomerName,
-        Mobile:fetchin.mobile,
+        Mobile: fetchin.CustomerMobile,
         amount: i.quantity,
         price_amount: i.itemTotal,
         Create_at: new Date(),
